@@ -3,6 +3,7 @@ const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const path = require('path');
 const session = require('express-session');
+
 const nunjucks = require('nunjucks');
 const dotenv = require('dotenv');
 const passport = require('passport');
@@ -10,6 +11,7 @@ const passport = require('passport');
 dotenv.config(); //dotenv는 최대한 위에 해야 밑에부터적용된다.
 const authRouter = require('./routes/auth');
 const indexRouter = require('./routes');
+const v1 = require('./routes/v1');
 const { sequelize } = require('./models'); //sequelize를 불러온다.
 const passportConfig = require('./passport');
 
@@ -54,6 +56,7 @@ app.use(passport.session());
 
 app.use('/auth', authRouter);
 app.use('/', indexRouter);
+app.use('/v1', v1);
 
 app.use((req, res, next) => {
 	const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);

@@ -1,7 +1,6 @@
 const express = require('express');
 const { v4: uuidv4 } = require('uuid');
 const { User, Domain } = require('../models');
-const { isLoggedIn } = require('./middlewares');
 
 const router = express.Router();
 
@@ -12,7 +11,6 @@ router.get('/', async (req, res, next) => {
 			include: { model: Domain }
 		});
 		res.render('login', {
-			//login.html
 			user,
 			domains: user && user.Domains
 		});
@@ -22,7 +20,7 @@ router.get('/', async (req, res, next) => {
 	}
 });
 
-router.post('/domain', isLoggedIn, async (req, res, next) => {
+router.post('/domain', async (req, res, next) => {
 	try {
 		await Domain.create({
 			UserId: req.user.id,

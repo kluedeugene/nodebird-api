@@ -9,7 +9,6 @@ const router = express.Router();
 router.post('/token', async (req, res) => {
 	const { clientSecret } = req.body;
 	try {
-		//도메인 등록 검사
 		const domain = await Domain.findOne({
 			where: { clientSecret },
 			include: {
@@ -24,7 +23,6 @@ router.post('/token', async (req, res) => {
 			});
 		}
 		const token = jwt.sign(
-			//토큰 발급
 			{
 				id: domain.User.id,
 				nick: domain.User.nick
@@ -50,7 +48,6 @@ router.post('/token', async (req, res) => {
 });
 
 router.get('/test', verifyToken, (req, res) => {
-	// 토큰 검사
 	res.json(req.decoded);
 });
 
